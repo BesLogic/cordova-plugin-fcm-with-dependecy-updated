@@ -35,10 +35,25 @@ public class FCMPlugin extends CordovaPlugin {
     protected static OnFinishedListener<JSONObject> notificationFn = null;
     private static final String TAG = "FCMPlugin";
     private static CordovaPlugin instance = null;
+    private static boolean inBackground = true;
 
     public FCMPlugin() {}
     public FCMPlugin(Context context) {
         this.context = context;
+    }
+
+    @Override
+    public void onPause(boolean multitasking) {
+        FCMPlugin.inBackground = true;
+    }
+
+    @Override
+    public void onResume(boolean multitasking) {
+        FCMPlugin.inBackground = false;
+    }
+
+    public static boolean inBackground() {
+        return FCMPlugin.inBackground;
     }
 
     public static synchronized FCMPlugin getInstance(Context context) {
