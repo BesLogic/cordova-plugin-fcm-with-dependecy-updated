@@ -47,6 +47,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("wasTapped", false);
 
+        // CARMON: Open App id data key is present
         if (remoteMessage.getData().get("openApp").equals("true") && FCMPlugin.inBackground()) {
             PackageManager pm = getApplicationContext().getPackageManager();
             Intent launchIntent = pm.getLaunchIntentForPackage(getApplicationContext().getPackageName());
@@ -66,6 +67,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         Log.d(TAG, "\tNotification Data: " + data.toString());
+        // CARMON: Save notification in initial payload
+        FCMPlugin.setInitialPushPayload(data);
         FCMPlugin.sendPushPayload(data);
     }
     // [END receive_message]
